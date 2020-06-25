@@ -1,21 +1,61 @@
-name: Android CI
+- name: Upload a Build Artifact
+  uses: actions/upload-artifact@v2
+steps:
+- uses: actions/checkout@v2
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+- run: mkdir -p path/to/artifact
 
-jobs:
-  build:
+- run: echo hello > path/to/artifact/world.txt
 
-    runs-on: ubuntu-latest
+- uses: actions/upload-artifact@v2
+  with:
+    name: my-artifact
+    path: path/to/artifact/world.txt
+  - uses: actions/upload-artifact@v2
+  with:
+    name: my-artifact
+    path: path/to/artifact/ # or path/to/artifact
+   - uses: actions/upload-artifact@v2
+  with:
+    name: my-artifact
+    path: path/**/[abc]rtifac?/*
+     - uses: actions/upload-artifact@v2
+  if: failure()
+  with:
+    name: my-artifact
+    path: path/to/artifact/
+ - uses: actions/upload-artifact@v2
+  with:
+    path: path/to/artifact/world.txt
+    - run: echo hi > world.txt
+- uses: actions/upload-artifact@v2
+  with:
+    path: world.txt
 
+- run: echo howdy > extra-file.txt
+- uses: actions/upload-artifact@v2
+  with:
+    path: extra-file.txt
+
+- run: echo hello > world.txt
+- uses: actions/upload-artifact@v2
+  with:
+    path: world.txt
+    - run: |	
+      mkdir -p ~/new/artifact
+      echo hello > ~/new/artifact/world.txt
+  - uses: actions/upload-artifact@v2
+    with:	
+      name: 'Artifacts-V2'	
+      path: '~/new/**/*'
+       env:
+      name: my-artifact
     steps:
-    - uses: actions/checkout@v2
-    - name: set up JDK 1.8
-      uses: actions/setup-java@v1
-      with:
-        java-version: 1.8
-    - name: Build with Gradle
-      run: ./gradlew build
+    - run: |	
+        mkdir -p ${{ github.workspace }}/artifact
+        echo hello > ${{ github.workspace }}/artifact/world.txt
+    - uses: actions/upload-artifact@v2
+      with:	
+        name: ${{ env.name }}-name	
+        path: ${{ github.workspace }}/artifact/**/*
+        
